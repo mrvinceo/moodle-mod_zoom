@@ -134,7 +134,8 @@ class mod_zoom_mod_form extends moodleform_mod {
 
         // Add password requirement prompt.
         $mform->addElement('advcheckbox', 'requirepassword', get_string('requirepassword', 'zoom'));
-        if (!is_null($this->current->password) && strval($this->current->password) === "") {
+
+        if (isset($this->current->password) && strval($this->current->password) === "") {
             $mform->setDefault('requirepassword', 0);
         } else {
             $mform->setDefault('requirepassword', 1);
