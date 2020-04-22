@@ -122,21 +122,26 @@ class mod_zoom_mod_form extends moodleform_mod {
             $mform->addElement('html', get_string('webinar_already_false', 'zoom'));
         }
 
+        // Deals with password manager issues
+        if (isset($this->current->password)) {
+            $this->current->meetingcode = $this->current->password;
+            unset($this->current->password);
+        }
         // Add password.
-        $mform->addElement('text', 'password', get_string('password', 'zoom'), array('maxlength' => '10'));
-        $mform->setType('password', PARAM_TEXT);
+        $mform->addElement('text', 'meetingcode', get_string('password', 'zoom'), array('maxlength' => '10'));
+        $mform->setType('meetingcode', PARAM_TEXT);
         // Check password uses valid characters.
         $regex = '/^[a-zA-Z0-9@_*-]{1,10}$/';
-        $mform->addRule('password', get_string('err_invalid_password', 'mod_zoom'), 'regex', $regex, 'client');
-        $mform->setDefault('password', strval(rand(100000, 999999)));
-        $mform->disabledIf('password', 'webinar', 'checked');
-        $mform->disabledIf('password', 'requirepassword', 'notchecked');
+        $mform->addRule('meetingcode', get_string('err_invalid_password', 'mod_zoom'), 'regex', $regex, 'client');
+        $mform->setDefault('meetingcode', strval(rand(100000, 999999)));
+        $mform->disabledIf('meetingcode', 'webinar', 'checked');
+        $mform->disabledIf('meetingcode', 'requirepassword', 'notchecked');
         $mform->addElement('static', 'passwordrequirements', '', get_string('err_password', 'mod_zoom'));
 
         // Add password requirement prompt.
         $mform->addElement('advcheckbox', 'requirepassword', get_string('requirepassword', 'zoom'));
 
-        if (isset($this->current->password) && strval($this->current->password) === "") {
+        if (isset($this->current->meetingcode) && strval($this->current->meetingcode) === "") {
             $mform->setDefault('requirepassword', 0);
         } else {
             $mform->setDefault('requirepassword', 1);
@@ -228,8 +233,8 @@ class mod_zoom_mod_form extends moodleform_mod {
             }
         }
 
-        if (!empty($data['requirepassword']) && empty($data['password'])) {
-            $errors['password'] = get_string('err_password_required', 'mod_zoom');
+        if (!empty($data['requirepassword']) && empty($data['meetingcode'])) {
+            $errors['meetingcode'] = get_string('err_password_required', 'mod_zoom');
         }
 
         // Check if the listed alternative hosts are valid users on Zoom.

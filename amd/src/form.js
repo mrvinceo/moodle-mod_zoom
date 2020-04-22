@@ -26,7 +26,7 @@
 define(['jquery'], function($) {
     return {
         init: function() {
-            var pwd = $('input[name="password"]');
+            var pwd = $('input[name="meetingcode"]');
             var reqpwd = $('input[name="requirepassword"][type!="hidden"]');
             $(document).ready(function() {
                 if (!reqpwd.is(':checked')) {

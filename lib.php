@@ -72,6 +72,14 @@ function zoom_add_instance(stdClass $zoom, mod_zoom_mod_form $mform = null) {
         $zoom->password = "";
     }
 
+    // Deals with password manager issues
+    $zoom->password = $zoom->meetingcode;
+    unset($zoom->meetingcode);
+
+    if (empty($zoom->requirepassword)) {
+        $zoom->password = "";
+    }
+
     $zoom->course = (int) $zoom->course;
 
     $service = new mod_zoom_webservice();
@@ -103,6 +111,11 @@ function zoom_update_instance(stdClass $zoom, mod_zoom_mod_form $mform = null) {
     // The object received from mod_form.php returns instance instead of id for some reason.
     $zoom->id = $zoom->instance;
     $zoom->timemodified = time();
+
+    // Deals with password manager issues
+    $zoom->password = $zoom->meetingcode;
+    unset($zoom->meetingcode);
+
     if (empty($zoom->requirepassword)) {
         $zoom->password = "";
     }
