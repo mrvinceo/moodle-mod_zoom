@@ -355,7 +355,7 @@ function xmldb_zoom_upgrade($oldversion) {
     if ($oldversion < 2020051800) {
         // Define field option_mute_upon_entry to be added to zoom.
         $table = new xmldb_table('zoom');
-        $field = new xmldb_field('option_mute_upon_entry', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'alternative_hosts');
+        $field = new xmldb_field('option_mute_upon_entry', XMLDB_TYPE_INTEGER, '1', null, null, null, '1', 'option_audio');
 
         // Conditionally launch add field option_mute_upon_entry.
         if (!$dbman->field_exists($table, $field)) {
@@ -364,7 +364,7 @@ function xmldb_zoom_upgrade($oldversion) {
 
         // Define field option_waiting_room to be added to zoom.
         $table = new xmldb_table('zoom');
-        $field = new xmldb_field('option_waiting_room', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'option_mute_upon_entry');
+        $field = new xmldb_field('option_waiting_room', XMLDB_TYPE_INTEGER, '1', null, null, null, '1', 'option_mute_upon_entry');
 
         // Conditionally launch add field option_waiting_room.
         if (!$dbman->field_exists($table, $field)) {
