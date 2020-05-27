@@ -394,9 +394,7 @@ class mod_zoom_webservice {
             $data['settings']['participant_video'] = (bool) ($zoom->option_participants_video);
             $data['settings']['join_before_host'] = (bool) ($zoom->option_jbh);
             $data['settings']['waiting_room'] = (bool) ($zoom->option_waiting_room);
-            if (isset($zoom->option_mute_upon_entry)) {
-                $data['settings']['mute_upon_entry'] = (bool) ($zoom->option_mute_upon_entry);
-            }
+            $data['settings']['mute_upon_entry'] = (bool) ($zoom->option_mute_upon_entry);
         }
 
         if ($data['type'] == ZOOM_SCHEDULED_MEETING || $data['type'] == ZOOM_SCHEDULED_WEBINAR) {

@@ -77,7 +77,7 @@ function zoom_add_instance(stdClass $zoom, mod_zoom_mod_form $mform = null) {
     unset($zoom->meetingcode);
 
     if (empty($zoom->requirepassword)) {
-        $zoom->password = "";
+        $zoom->password = '';
     }
 
     $zoom->course = (int) $zoom->course;
