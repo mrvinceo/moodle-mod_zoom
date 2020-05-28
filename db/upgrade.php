@@ -398,7 +398,7 @@ function xmldb_zoom_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2020051800, 'zoom');
     }
 
-    if ($oldversion < 2020052000) {
+    if ($oldversion < 2020052100) {
         // Increase meeting_id since Zoom increased the size from 10 to 11.
 
         // First need to drop index.
@@ -415,27 +415,20 @@ function xmldb_zoom_upgrade($oldversion) {
         // Add index back.
         $dbman->add_index($table, $index);
 
-        // Zoom savepoint reached.
-        upgrade_mod_savepoint(true, 2020052000, 'zoom');
-    }
+        // First need to drop key.
+        $table = new xmldb_table('zoom_meeting_details');
+        $key = new xmldb_key('meeting_unique', XMLDB_KEY_UNIQUE, ['meeting_id', 'uuid']);
+        $dbman->drop_key($table, $key);
 
-    if ($oldversion < 2020052700) {
-        // Changing the default of field option_waiting_room on table zoom to 0.
-        $table = new xmldb_table('zoom');
-        $field = new xmldb_field('option_waiting_room', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'option_mute_upon_entry');
+        // Increase size to 15 for future proofing.
+        $field = new xmldb_field('meeting_id', XMLDB_TYPE_INTEGER, '15', null, XMLDB_NOTNULL, null, null, 'uuid');
+        $dbman->change_field_precision($table, $field);
 
-        // Launch change of default for field option_host_video.
-        $dbman->change_field_default($table, $field);
-
-        // Changing the default of field option_mute_upon_entry on table zoom to 0.
-        $table = new xmldb_table('zoom');
-        $field = new xmldb_field('option_mute_upon_entry', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'option_audio');
-
-        // Launch change of default for field option_participants_video.
-        $dbman->change_field_default($table, $field);
+        // Add key back.
+        $dbman->add_key($table, $key);
 
         // Zoom savepoint reached.
-        upgrade_mod_savepoint(true, 2020052700, 'zoom');
+        upgrade_mod_savepoint(true, 2020052100, 'zoom');
     }
 
     return true;

@@ -25,7 +25,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_zoom';
+<<<<<<< HEAD
 $plugin->version = 2020052700;
+=======
+$plugin->version = 2020052100;
+>>>>>>> origin/patch/CCLE-9223-support-longer-meetingids
 $plugin->release = 'v2.2';
 $plugin->requires = 2017051500.00;
 $plugin->maturity = MATURITY_STABLE;
